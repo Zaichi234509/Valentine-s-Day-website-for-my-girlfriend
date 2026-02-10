@@ -236,14 +236,14 @@ function updateThemeBasedOnTime() {
 
 function createCherryBlossoms() {
     const container = document.getElementById('cherry-blossoms');
-    const petalCount = 50;
+    const petalCount = 30;
     
     for (let i = 0; i < petalCount; i++) {
         const petal = document.createElement('div');
         petal.className = 'petal';
         petal.innerHTML = '🌸';
         petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        petal.style.fontSize = (Math.random() * 12 + 8) + 'px';
         petal.style.animationDelay = (Math.random() * 5) + 's';
         petal.style.animationDuration = (Math.random() * 10 + 10) + 's';
         container.appendChild(petal);
@@ -252,12 +252,12 @@ function createCherryBlossoms() {
 
 function createStarryNight() {
     const container = document.getElementById('night-sky');
-    const starCount = 100;
+    const starCount = 80;
     
     for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.className = 'star';
-        star.style.width = (Math.random() * 3 + 1) + 'px';
+        star.style.width = (Math.random() * 2 + 1) + 'px';
         star.style.height = star.style.width;
         star.style.left = Math.random() * 100 + 'vw';
         star.style.top = Math.random() * 100 + 'vh';
@@ -276,7 +276,7 @@ function createParticleEffect(x, y, color = '#ff6b8b', count = 20) {
         particle.className = 'particle';
         particle.style.left = x + 'px';
         particle.style.top = y + 'px';
-        particle.style.width = (Math.random() * 10 + 5) + 'px';
+        particle.style.width = (Math.random() * 8 + 4) + 'px';
         particle.style.height = particle.style.width;
         particle.style.background = color;
         particle.style.opacity = '0.8';
@@ -285,7 +285,7 @@ function createParticleEffect(x, y, color = '#ff6b8b', count = 20) {
         
         // Animate particle
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 100 + 50;
+        const speed = Math.random() * 80 + 40;
         const vx = Math.cos(angle) * speed;
         const vy = Math.sin(angle) * speed;
         
@@ -309,27 +309,29 @@ function createParticleEffect(x, y, color = '#ff6b8b', count = 20) {
 
 // ============= CURSOR TRAIL =============
 function setupCursorTrail() {
-    const trail = document.getElementById('cursor-trail');
-    let mouseX = 0, mouseY = 0;
-    let trailX = 0, trailY = 0;
-    
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-    
-    function animateTrail() {
-        trailX += (mouseX - trailX - 10) * 0.2;
-        trailY += (mouseY - trailY - 10) * 0.2;
+    if (window.innerWidth > 768) {
+        const trail = document.getElementById('cursor-trail');
+        let mouseX = 0, mouseY = 0;
+        let trailX = 0, trailY = 0;
         
-        trail.style.left = trailX + 'px';
-        trail.style.top = trailY + 'px';
-        trail.style.opacity = '0.7';
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
         
-        requestAnimationFrame(animateTrail);
+        function animateTrail() {
+            trailX += (mouseX - trailX - 10) * 0.2;
+            trailY += (mouseY - trailY - 10) * 0.2;
+            
+            trail.style.left = trailX + 'px';
+            trail.style.top = trailY + 'px';
+            trail.style.opacity = '0.7';
+            
+            requestAnimationFrame(animateTrail);
+        }
+        
+        animateTrail();
     }
-    
-    animateTrail();
 }
 
 // ============= LOVE GENERATOR =============
@@ -343,7 +345,7 @@ function setupLoveGenerator() {
     
     function getRandomReason() {
         if (usedReasons.size >= loveReasons.length) {
-            usedReasons.clear(); // Reset if all reasons have been shown
+            usedReasons.clear();
         }
         
         let randomIndex;
@@ -355,7 +357,7 @@ function setupLoveGenerator() {
         return loveReasons[randomIndex];
     }
     
-    generateBtn.addEventListener('click', function() {
+    function handleGenerateClick() {
         const reason = getRandomReason();
         reasonDisplay.innerHTML = `<p>${reason}</p>`;
         
@@ -371,19 +373,26 @@ function setupLoveGenerator() {
         reasonsShown.textContent = count;
         
         // Particle effect
-        const rect = this.getBoundingClientRect();
+        const rect = generateBtn.getBoundingClientRect();
         createParticleEffect(
             rect.left + rect.width / 2,
             rect.top + rect.height / 2,
             '#ff6b8b',
-            15
+            12
         );
         
         // Button animation
-        this.style.transform = 'scale(1.1)';
+        generateBtn.style.transform = 'scale(1.1)';
         setTimeout(() => {
-            this.style.transform = 'scale(1)';
+            generateBtn.style.transform = 'scale(1)';
         }, 200);
+    }
+    
+    // Event listeners for both click and touch
+    generateBtn.addEventListener('click', handleGenerateClick);
+    generateBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleGenerateClick();
     });
     
     // Initialize with first reason
@@ -410,7 +419,7 @@ function setupComfortButtons() {
         comfortsSent.textContent = comfortCount + romanceCount + specialCount;
     }
     
-    comfortBtn.addEventListener('click', function() {
+    function handleComfortClick() {
         const randomIndex = Math.floor(Math.random() * comfortMessages.length);
         comfortMessage.textContent = comfortMessages[randomIndex];
         comfortCount++;
@@ -424,14 +433,20 @@ function setupComfortButtons() {
         
         // Particle effect
         createParticleEffect(
-            this.getBoundingClientRect().left + this.getBoundingClientRect().width / 2,
-            this.getBoundingClientRect().top + this.getBoundingClientRect().height / 2,
+            comfortBtn.getBoundingClientRect().left + comfortBtn.getBoundingClientRect().width / 2,
+            comfortBtn.getBoundingClientRect().top + comfortBtn.getBoundingClientRect().height / 2,
             '#4A90E2',
-            10
+            8
         );
-    });
+        
+        // Button animation
+        comfortBtn.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            comfortBtn.style.transform = 'scale(1)';
+        }, 200);
+    }
     
-    romanceBtn.addEventListener('click', function() {
+    function handleRomanceClick() {
         const randomIndex = Math.floor(Math.random() * romanceMessages.length);
         romanceMessage.textContent = romanceMessages[randomIndex];
         romanceCount++;
@@ -445,14 +460,20 @@ function setupComfortButtons() {
         
         // Particle effect
         createParticleEffect(
-            this.getBoundingClientRect().left + this.getBoundingClientRect().width / 2,
-            this.getBoundingClientRect().top + this.getBoundingClientRect().height / 2,
+            romanceBtn.getBoundingClientRect().left + romanceBtn.getBoundingClientRect().width / 2,
+            romanceBtn.getBoundingClientRect().top + romanceBtn.getBoundingClientRect().height / 2,
             '#ff6b8b',
-            10
+            8
         );
-    });
+        
+        // Button animation
+        romanceBtn.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            romanceBtn.style.transform = 'scale(1)';
+        }, 200);
+    }
     
-    specialBtn.addEventListener('click', function() {
+    function handleSpecialClick() {
         const randomIndex = Math.floor(Math.random() * specialComfortMessages.length);
         
         // Show in both displays
@@ -472,17 +493,36 @@ function setupComfortButtons() {
         
         // Big particle effect
         createParticleEffect(
-            this.getBoundingClientRect().left + this.getBoundingClientRect().width / 2,
-            this.getBoundingClientRect().top + this.getBoundingClientRect().height / 2,
+            specialBtn.getBoundingClientRect().left + specialBtn.getBoundingClientRect().width / 2,
+            specialBtn.getBoundingClientRect().top + specialBtn.getBoundingClientRect().height / 2,
             '#00b4d8',
-            30
+            20
         );
         
         // Button animation
-        this.style.transform = 'scale(1.1)';
+        specialBtn.style.transform = 'scale(1.1)';
         setTimeout(() => {
-            this.style.transform = 'scale(1)';
+            specialBtn.style.transform = 'scale(1)';
         }, 300);
+    }
+    
+    // Event listeners
+    comfortBtn.addEventListener('click', handleComfortClick);
+    comfortBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleComfortClick();
+    });
+    
+    romanceBtn.addEventListener('click', handleRomanceClick);
+    romanceBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleRomanceClick();
+    });
+    
+    specialBtn.addEventListener('click', handleSpecialClick);
+    specialBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleSpecialClick();
     });
 }
 
@@ -493,7 +533,7 @@ function setupDailySurprise() {
     let surpriseCount = 0;
     let usedSurprises = new Set();
     
-    surpriseBtn.addEventListener('click', function() {
+    function handleSurpriseClick() {
         let randomIndex;
         do {
             randomIndex = Math.floor(Math.random() * dailySurprises.length);
@@ -513,19 +553,19 @@ function setupDailySurprise() {
         popup.style.transform = 'translate(-50%, -50%)';
         popup.style.background = 'linear-gradient(45deg, #ff9a00, #ff6b8b)';
         popup.style.color = 'white';
-        popup.style.padding = '30px';
+        popup.style.padding = '25px';
         popup.style.borderRadius = '20px';
         popup.style.zIndex = '99999';
         popup.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
         popup.style.textAlign = 'center';
-        popup.style.maxWidth = '500px';
-        popup.style.width = '90%';
+        popup.style.maxWidth = '450px';
+        popup.style.width = '85%';
         popup.style.animation = 'fadeIn 0.5s ease forwards';
         
         popup.innerHTML = `
             <h3 class="cursive-font mb-3">Your Daily Surprise! 💝</h3>
-            <p style="font-size: 1.2rem; line-height: 1.6;">${dailySurprises[randomIndex]}</p>
-            <button class="btn btn-light mt-4 close-popup">OK</button>
+            <p style="font-size: 1.1rem; line-height: 1.6;">${dailySurprises[randomIndex]}</p>
+            <button class="btn btn-light mt-3 close-popup" style="min-height: 44px; min-width: 100px;">OK</button>
         `;
         
         document.body.appendChild(popup);
@@ -554,11 +594,24 @@ function setupDailySurprise() {
         
         // Particle effect
         createParticleEffect(
-            this.getBoundingClientRect().left + this.getBoundingClientRect().width / 2,
-            this.getBoundingClientRect().top + this.getBoundingClientRect().height / 2,
+            surpriseBtn.getBoundingClientRect().left + surpriseBtn.getBoundingClientRect().width / 2,
+            surpriseBtn.getBoundingClientRect().top + surpriseBtn.getBoundingClientRect().height / 2,
             '#ff9a00',
-            25
+            20
         );
+        
+        // Button animation
+        surpriseBtn.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            surpriseBtn.style.transform = 'scale(1)';
+        }, 200);
+    }
+    
+    // Event listeners
+    surpriseBtn.addEventListener('click', handleSurpriseClick);
+    surpriseBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        handleSurpriseClick();
     });
 }
 
@@ -579,126 +632,21 @@ function animateLoveMeter() {
     }, 100);
 }
 
-// ============= TIMELINE ANIMATION =============
-function checkTimelineVisibility() {
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    
-    timelineItems.forEach(item => {
-        const itemTop = item.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        
-        if (itemTop < windowHeight - 100) {
-            item.classList.add('visible');
-        }
-    });
-}
-
-// ============= LOGOUT FUNCTION =============
-function setupLogout() {
-    const logoutBtn = document.getElementById('logout-btn');
-    
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            // Create confirmation
-            const confirmLogout = confirm("Return to Valentine's Day page?");
-            if (confirmLogout) {
-                window.location.href = 'index.html';
-            }
-        });
-    }
-}
-
-// ============= SMOOTH SCROLLING =============
-function setupSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            if(targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if(targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 70,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// ============= CLICK PARTICLE EFFECTS =============
-function setupClickParticles() {
-    document.addEventListener('click', function(e) {
-        // Don't create particles on form elements
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON') {
-            return;
-        }
-        
-        // Random chance to create particles
-        if (Math.random() > 0.7) {
-            const colors = ['#ff6b8b', '#6a5af9', '#ffd166', '#06d6a0'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            createParticleEffect(e.clientX, e.clientY, randomColor, 5);
-        }
-    });
-}
-
-// ============= INITIALIZE EVERYTHING =============
-document.addEventListener('DOMContentLoaded', function() {
-    // Set up all features
-    updateThemeBasedOnTime();
-    setupCursorTrail();
-    setupLoveGenerator();
-    setupComfortButtons();
-    setupDailySurprise();
-    animateLoveMeter();
-    setupLogout();
-    setupSmoothScrolling();
-    setupClickParticles();
-    
-    // Check timeline visibility
-    checkTimelineVisibility();
-    window.addEventListener('scroll', checkTimelineVisibility);
-    window.addEventListener('resize', checkTimelineVisibility);
-    
-    // Update theme every hour
-    setInterval(updateThemeBasedOnTime, 3600000);
-    
-    // Parallax effect for hero section
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const hero = document.querySelector('.hero-section');
-        if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.05}px)`;
-        }
-    });
-     setupValentineGreeting();
-    // Welcome message
-    setTimeout(() => {
-        console.log("%c❤️ Welcome to your special place, Mary Joy! ❤️", 
-            "color: #ff6b8b; font-size: 16px; font-weight: bold;");
-        console.log("%cThis website was made with love just for you.", 
-            "color: #6a5af9; font-size: 14px;");
-    }, 1000);
-});
-
 // ============= VALENTINE'S DAY GREETING =============
 function setupValentineGreeting() {
     const envelope = document.getElementById('envelope');
     const valentineLetter = document.getElementById('valentine-letter');
     const closeLetter = document.getElementById('close-letter');
     
-    // Open envelope
-    envelope.addEventListener('click', function() {
-        this.classList.add('open');
+    function openEnvelope() {
+        envelope.classList.add('open');
         
         // Show letter with delay
         setTimeout(() => {
             valentineLetter.classList.add('show');
             
             // Create heart explosion
-            for(let i = 0; i < 20; i++) {
+            for(let i = 0; i < 15; i++) {
                 setTimeout(() => {
                     createParticleEffect(
                         envelope.getBoundingClientRect().left + envelope.getBoundingClientRect().width / 2,
@@ -709,19 +657,32 @@ function setupValentineGreeting() {
                 }, i * 100);
             }
             
-            // Play romantic sound effect (optional)
+            // Play romantic sound effect
             playRomanticSound();
             
         }, 500);
-    });
+    }
     
-    // Close letter
-    closeLetter.addEventListener('click', function() {
+    function closeValentineLetter() {
         valentineLetter.classList.remove('show');
         
         setTimeout(() => {
             envelope.classList.remove('open');
         }, 300);
+    }
+    
+    // Event listeners for envelope
+    envelope.addEventListener('click', openEnvelope);
+    envelope.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        openEnvelope();
+    });
+    
+    // Event listener for close button
+    closeLetter.addEventListener('click', closeValentineLetter);
+    closeLetter.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        closeValentineLetter();
     });
     
     // Valentine's Day countdown
@@ -730,13 +691,14 @@ function setupValentineGreeting() {
 }
 
 function updateValentineCountdown() {
-    // Set Valentine's Day date (change year as needed)
-    const valentineDate = new Date(new Date().getFullYear(), 1, 14); // February 14
+    // Set Valentine's Day date
     const now = new Date();
+    const currentYear = now.getFullYear();
+    const valentineDate = new Date(currentYear, 1, 14); // February 14
     
     // If Valentine's Day has passed this year, set for next year
     if (now > valentineDate) {
-        valentineDate.setFullYear(valentineDate.getFullYear() + 1);
+        valentineDate.setFullYear(currentYear + 1);
     }
     
     const timeLeft = valentineDate - now;
@@ -767,7 +729,6 @@ function updateValentineCountdown() {
 }
 
 function playRomanticSound() {
-    // Create a simple romantic sound effect using Web Audio API
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
@@ -776,11 +737,11 @@ function playRomanticSound() {
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
         
-        oscillator.frequency.value = 523.25; // C5 note
+        oscillator.frequency.value = 523.25;
         oscillator.type = 'sine';
         
         gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+        gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.1);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);
         
         oscillator.start(audioContext.currentTime);
@@ -790,5 +751,168 @@ function playRomanticSound() {
     }
 }
 
-// In your DOMContentLoaded function, add:
-// setupValentineGreeting();
+// ============= TIMELINE ANIMATION =============
+function checkTimelineVisibility() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (itemTop < windowHeight - 100) {
+            item.classList.add('visible');
+        }
+    });
+}
+
+// ============= LOGOUT FUNCTION =============
+function setupLogout() {
+    const logoutBtn = document.getElementById('logout-btn');
+    
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            if (confirm("Return to Valentine's Day page?")) {
+                window.location.href = 'index.html';
+            }
+        });
+        
+        logoutBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            if (confirm("Return to Valentine's Day page?")) {
+                window.location.href = 'index.html';
+            }
+        });
+    }
+}
+
+// ============= SMOOTH SCROLLING =============
+function setupSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if(targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if(targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 70,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile menu if open
+                const navbarCollapse = document.querySelector('.navbar-collapse.show');
+                if (navbarCollapse) {
+                    navbarCollapse.classList.remove('show');
+                }
+            }
+        });
+    });
+}
+
+// ============= CLICK PARTICLE EFFECTS =============
+function setupClickParticles() {
+    document.addEventListener('click', function(e) {
+        // Don't create particles on form elements
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+            return;
+        }
+        
+        // Random chance to create particles
+        if (Math.random() > 0.7) {
+            const colors = ['#ff6b8b', '#6a5af9', '#ffd166', '#06d6a0'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            createParticleEffect(e.clientX, e.clientY, randomColor, 3);
+        }
+    });
+}
+
+// ============= MOBILE TOUCH IMPROVEMENTS =============
+function improveMobileExperience() {
+    // Prevent zoom on double tap
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    
+    // Improve button touch feedback
+    document.querySelectorAll('button, .btn, .envelope, .photo-frame, .timeline-content, .promise-item').forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+            this.style.transition = 'transform 0.1s ease';
+        });
+        
+        element.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        element.addEventListener('touchcancel', function() {
+            this.style.transform = 'scale(1)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+    });
+    
+    // Fix for iOS viewport height
+    function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    setVH();
+    window.addEventListener('resize', setVH);
+    window.addEventListener('orientationchange', setVH);
+    
+    // Prevent pull-to-refresh on mobile
+    document.body.style.overscrollBehavior = 'contain';
+}
+
+// ============= INITIALIZE EVERYTHING =============
+document.addEventListener('DOMContentLoaded', function() {
+    // Set up all features
+    updateThemeBasedOnTime();
+    setupCursorTrail();
+    setupLoveGenerator();
+    setupComfortButtons();
+    setupDailySurprise();
+    setupValentineGreeting();
+    animateLoveMeter();
+    setupLogout();
+    setupSmoothScrolling();
+    setupClickParticles();
+    improveMobileExperience();
+    
+    // Check timeline visibility
+    checkTimelineVisibility();
+    window.addEventListener('scroll', checkTimelineVisibility);
+    window.addEventListener('resize', checkTimelineVisibility);
+    
+    // Parallax effect for hero section
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const hero = document.querySelector('.hero-section');
+        if (hero && window.innerWidth > 768) {
+            hero.style.transform = `translateY(${scrolled * 0.05}px)`;
+        }
+    });
+    
+    // Update theme every hour
+    setInterval(updateThemeBasedOnTime, 3600000);
+    
+    // Welcome message
+    setTimeout(() => {
+        console.log("%c❤️ Welcome to your special place, Mary Joy! ❤️", 
+            "color: #ff6b8b; font-size: 16px; font-weight: bold;");
+        console.log("%cThis website was made with love just for you.", 
+            "color: #6a5af9; font-size: 14px;");
+    }, 1000);
+    
+    // Initialize all counters to 0
+    document.getElementById('comforts-sent').textContent = '0';
+    document.getElementById('reasons-shown').textContent = '0';
+    document.getElementById('surprises-opened').textContent = '0';
+});
