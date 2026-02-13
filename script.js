@@ -1,114 +1,3 @@
-// ============= REASONS WHY I LOVE YOU GENERATOR =============
-const loveReasons = [
-    // Flirty Reasons
-    "The way your smile makes my heart skip a beat every single time.",
-    "Your laughter is my favorite sound in the entire world.",
-    "I love how your eyes light up when you talk about things you're passionate about.",
-    "The way you look at me makes me feel like I'm the only person in the world.",
-    "Your voice is the most beautiful melody I've ever heard.",
-    "I love how you make even the most ordinary moments feel magical.",
-    "The way you carry yourself with such grace and beauty.",
-    "Your intelligence mixed with your kindness is incredibly attractive.",
-    "I love how you challenge me to be a better person.",
-    "Your sense of humor always knows how to make me smile.",
-    
-    // Romantic Reasons
-    "I love how you understand me without me having to say a word.",
-    "You have the most beautiful heart I've ever known.",
-    "I love dreaming about our future together with you.",
-    "The way you love so deeply and completely inspires me.",
-    "I love how you make me believe in forever.",
-    "You're my safe place, my home, my everything.",
-    "I love how you see the beauty in everything, even on hard days.",
-    "You make love feel easy and natural.",
-    "I love how you've changed my life in the best possible ways.",
-    "You're the answer to prayers I didn't even know I was praying.",
-    
-    // Comforting Reasons (for her worries)
-    "I love how strong you are, even when you don't feel strong.",
-    "Your determination to provide for your family shows your beautiful heart.",
-    "I love how you care so deeply about the people you love.",
-    "Your resilience in facing challenges is incredibly inspiring.",
-    "I love how you always think ahead and plan for the future.",
-    "Your dedication to your goals shows your amazing character.",
-    "I love how responsible and thoughtful you are about everything.",
-    "You have the strength of a warrior with the heart of an angel.",
-    "I love how you turn worries into action plans.",
-    "Your ability to carry so much and still shine is remarkable.",
-    
-    // Encouraging Reasons
-    "I love how you never give up, no matter how hard things get.",
-    "Your positive attitude even during difficult times is admirable.",
-    "I love how you turn challenges into opportunities.",
-    "Your faith in the future gives me faith too.",
-    "I love how you're always growing and learning.",
-    "Your courage to face uncertainties head-on is beautiful.",
-    "I love how you inspire everyone around you to be better.",
-    "Your hope for tomorrow lights up even the darkest days.",
-    "I love how you make plans and work hard to achieve them.",
-    "Your perseverance is one of the things I admire most about you.",
-    
-    // Personal Reasons
-    "I love how you make me feel complete.",
-    "You're my best friend and my greatest love.",
-    "I love how we can talk about anything and everything.",
-    "Your presence alone makes everything better.",
-    "I love how you accept me for who I am.",
-    "You make me want to be the best version of myself.",
-    "I love how we understand each other on a deeper level.",
-    "Your love has transformed my life in beautiful ways.",
-    "I love how we're building something special together.",
-    "You're the most beautiful person I know, inside and out.",
-    
-    // Future-Oriented Reasons
-    "I love dreaming about building a life with you.",
-    "Your vision for our future excites me every day.",
-    "I love how we support each other's dreams and goals.",
-    "Planning our future together is my favorite thing to do.",
-    "I love how committed you are to making our dreams come true.",
-    "Your dedication to creating a better future is inspiring.",
-    "I love how we work together as a team.",
-    "Thinking about growing old with you makes me so happy.",
-    "I love how you include me in your plans for the future.",
-    "Building a home with you is my greatest dream.",
-    
-    // Sweet & Simple Reasons
-    "I love the way you say my name.",
-    "Your morning messages make my whole day better.",
-    "I love how you remember the little things about me.",
-    "Your hugs (even virtual ones) feel like home.",
-    "I love how excited you get about small things.",
-    "Your kindness to others shows your beautiful soul.",
-    "I love how you make me feel loved every single day.",
-    "Your thoughtfulness never ceases to amaze me.",
-    "I love how you're always there for me.",
-    "Just being with you (even virtually) makes me happy.",
-    
-    // For Her Worries About Health
-    "I love how you take care of yourself because you want a future with me.",
-    "Your concern for your health shows how much you value our future.",
-    "I love how strong you are in facing health challenges.",
-    "Your positive attitude towards wellness is inspiring.",
-    "I love how you're proactive about your well-being.",
-    "Your determination to stay healthy for our future touches my heart.",
-    "I love how you don't let worries define you.",
-    "Your resilience gives me strength too.",
-    "I love how you turn concerns into positive action.",
-    "Your courage in facing health matters is admirable.",
-    
-    // For Her Family Responsibilities
-    "I love how much you care for your family - it shows your loving heart.",
-    "Your dedication to providing for your family is beautiful.",
-    "I love how you put others before yourself.",
-    "Your sense of responsibility is one of your most attractive qualities.",
-    "I love how you work so hard for the people you love.",
-    "Your family is lucky to have someone as caring as you.",
-    "I love how you balance so many responsibilities with grace.",
-    "Your commitment to your family shows your incredible character.",
-    "I love how you make sacrifices out of love.",
-    "Your strength in carrying family responsibilities inspires me."
-];
-
 // ============= COMFORT & ENCOURAGEMENT MESSAGES =============
 const comfortMessages = [
     // For overthinking about future/health
@@ -334,74 +223,6 @@ function setupCursorTrail() {
     }
 }
 
-// ============= LOVE GENERATOR =============
-function setupLoveGenerator() {
-    const generateBtn = document.getElementById('generate-reason-btn');
-    const reasonDisplay = document.getElementById('reason-display');
-    const reasonCount = document.getElementById('reason-count');
-    const reasonsShown = document.getElementById('reasons-shown');
-    let usedReasons = new Set();
-    let count = 0;
-    
-    function getRandomReason() {
-        if (usedReasons.size >= loveReasons.length) {
-            usedReasons.clear();
-        }
-        
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * loveReasons.length);
-        } while (usedReasons.has(randomIndex));
-        
-        usedReasons.add(randomIndex);
-        return loveReasons[randomIndex];
-    }
-    
-    function handleGenerateClick() {
-        const reason = getRandomReason();
-        reasonDisplay.innerHTML = `<p>${reason}</p>`;
-        
-        // Animation
-        reasonDisplay.style.animation = 'none';
-        setTimeout(() => {
-            reasonDisplay.style.animation = 'fadeIn 0.5s ease';
-        }, 10);
-        
-        // Update counters
-        count++;
-        reasonCount.textContent = count;
-        reasonsShown.textContent = count;
-        
-        // Particle effect
-        const rect = generateBtn.getBoundingClientRect();
-        createParticleEffect(
-            rect.left + rect.width / 2,
-            rect.top + rect.height / 2,
-            '#ff6b8b',
-            12
-        );
-        
-        // Button animation
-        generateBtn.style.transform = 'scale(1.1)';
-        setTimeout(() => {
-            generateBtn.style.transform = 'scale(1)';
-        }, 200);
-    }
-    
-    // Event listeners for both click and touch
-    generateBtn.addEventListener('click', handleGenerateClick);
-    generateBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        handleGenerateClick();
-    });
-    
-    // Initialize with first reason
-    reasonDisplay.innerHTML = `<p>${getRandomReason()}</p>`;
-    count++;
-    reasonCount.textContent = count;
-    reasonsShown.textContent = count;
-}
-
 // ============= COMFORT & ENCOURAGEMENT =============
 function setupComfortButtons() {
     const comfortBtn = document.getElementById('comfort-btn');
@@ -524,6 +345,112 @@ function setupComfortButtons() {
         e.preventDefault();
         handleSpecialClick();
     });
+}
+
+// ============= ROMANTIC PHOTO GALLERY =============
+function setupRomanticGallery() {
+    const photoFrames = document.querySelectorAll('.photo-frame');
+    
+    photoFrames.forEach((frame, index) => {
+        // Add click event for romantic message
+        frame.addEventListener('click', function() {
+            showRomanticMessage(index);
+        });
+        
+        // Add hover effects
+        frame.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-15px) scale(1.05) rotate(1deg)';
+            createParticleEffect(
+                frame.getBoundingClientRect().left + frame.getBoundingClientRect().width / 2,
+                frame.getBoundingClientRect().top + frame.getBoundingClientRect().height / 2,
+                '#ff6b8b',
+                8
+            );
+        });
+        
+        frame.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-10px) scale(1.02) rotate(0deg)';
+        });
+        
+        // Add touch events for mobile
+        frame.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            showRomanticMessage(index);
+        });
+    });
+}
+
+function showRomanticMessage(photoIndex) {
+    const romanticMessages = [
+        "Every moment with you is my favorite memory",
+        "You make my world complete",
+        "Forever starts with you",
+        "My heart beats only for you",
+        "You're my sunshine on cloudy days",
+        "With you, every day is Valentine's Day",
+        "You're the missing piece to my puzzle",
+        "My love for you grows stronger each day",
+        "You're my dream come true",
+        "I fall in love with you more every day"
+    ];
+    
+    const message = romanticMessages[photoIndex % romanticMessages.length];
+    
+    // Create romantic popup
+    const popup = document.createElement('div');
+    popup.style.position = 'fixed';
+    popup.style.top = '50%';
+    popup.style.left = '50%';
+    popup.style.transform = 'translate(-50%, -50%)';
+    popup.style.background = 'linear-gradient(45deg, #ff6b8b, #ff1493)';
+    popup.style.color = 'white';
+    popup.style.padding = '30px';
+    popup.style.borderRadius = '20px';
+    popup.style.zIndex = '99999';
+    popup.style.boxShadow = '0 25px 50px rgba(0,0,0,0.4)';
+    popup.style.textAlign = 'center';
+    popup.style.maxWidth = '400px';
+    popup.style.width = '90%';
+    popup.style.animation = 'fadeIn 0.5s ease forwards';
+    popup.style.fontFamily = "'Dancing Script', cursive";
+    
+    popup.innerHTML = `
+        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">💕 A Message For You 💕</h3>
+        <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 20px;">${message}</p>
+        <button class="btn btn-light close-popup" style="min-height: 44px; min-width: 100px; font-family: 'Poppins', sans-serif;">
+            <i class="fas fa-heart me-2"></i>Thank You
+        </button>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Close button
+    popup.querySelector('.close-popup').addEventListener('click', function() {
+        popup.style.animation = 'fadeIn 0.5s ease reverse forwards';
+        setTimeout(() => {
+            popup.remove();
+        }, 500);
+    });
+    
+    // Close on click outside
+    popup.addEventListener('click', function(e) {
+        if (e.target === this) {
+            popup.style.animation = 'fadeIn 0.5s ease reverse forwards';
+            setTimeout(() => {
+                popup.remove();
+            }, 500);
+        }
+    });
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        if (document.body.contains(popup)) {
+            popup.style.animation = 'fadeIn 0.5s ease reverse forwards';
+            setTimeout(() => {
+                popup.remove();
+            }, 500);
+        }
+    }, 5000);
 }
 
 // ============= DAILY SURPRISE =============
@@ -829,16 +756,6 @@ function setupClickParticles() {
 
 // ============= MOBILE TOUCH IMPROVEMENTS =============
 function improveMobileExperience() {
-    // Prevent zoom on double tap
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(event) {
-        const now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, false);
-    
     // Improve button touch feedback
     document.querySelectorAll('button, .btn, .envelope, .photo-frame, .timeline-content, .promise-item').forEach(element => {
         element.addEventListener('touchstart', function() {
@@ -866,9 +783,196 @@ function improveMobileExperience() {
     setVH();
     window.addEventListener('resize', setVH);
     window.addEventListener('orientationchange', setVH);
+}
+
+// ============= FOOTER INTERACTIVE FEATURES =============
+function setupFooterFeatures() {
+    // Days together counter
+    function updateDaysTogether() {
+        const startDate = new Date('2021-09-19'); // September 19, 2021
+        const currentDate = new Date();
+        const daysDiff = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+        document.getElementById('days-together').textContent = daysDiff;
+    }
     
-    // Prevent pull-to-refresh on mobile
-    document.body.style.overscrollBehavior = 'contain';
+    // Love buttons functionality
+    const kissBtn = document.getElementById('kiss-btn');
+    const hugBtn = document.getElementById('hug-btn');
+    const loveBtnFooter = document.getElementById('love-btn');
+    
+    function receiveLove(type, emoji, color) {
+        // Create floating emoji effect
+        for(let i = 0; i < 10; i++) {
+            setTimeout(() => {
+                const emojiElement = document.createElement('div');
+                emojiElement.textContent = emoji;
+                emojiElement.style.position = 'fixed';
+                emojiElement.style.left = Math.random() * window.innerWidth + 'px';
+                emojiElement.style.bottom = '0px';
+                emojiElement.style.fontSize = '30px';
+                emojiElement.style.color = color;
+                emojiElement.style.zIndex = '9999';
+                emojiElement.style.pointerEvents = 'none';
+                emojiElement.style.animation = 'floatUp 3s ease-out forwards';
+                document.body.appendChild(emojiElement);
+                
+                setTimeout(() => emojiElement.remove(), 3000);
+            }, i * 100);
+        }
+        
+        // Show love popup
+        showLovePopup(type);
+    }
+    
+    function showLovePopup(type) {
+        const popup = document.createElement('div');
+        popup.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(45deg, #ff6b8b, #ff1493);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            z-index: 99999;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 0.5s ease forwards;
+            font-family: 'Poppins', sans-serif;
+        `;
+        
+        const messages = {
+            kiss: "💋 Receiving a sweet kiss from your love!",
+            hug: "🤗 Feeling the warmest hug from your beloved!",
+            love: "❤️ You are loved deeply and completely!"
+        };
+        
+        popup.innerHTML = `
+            <h3 style="font-size: 1.5rem; margin-bottom: 15px;">${messages[type]}</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">You are cherished and adored</p>
+            <button class="btn btn-light close-popup" style="min-height: 44px; min-width: 100px;">
+                <i class="fas fa-heart me-2"></i>Thank You
+            </button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // Close popup
+        popup.querySelector('.close-popup').addEventListener('click', function() {
+            popup.style.animation = 'fadeIn 0.5s ease reverse forwards';
+            setTimeout(() => popup.remove(), 500);
+        });
+        
+        // Auto close after 3 seconds
+        setTimeout(() => {
+            if (document.body.contains(popup)) {
+                popup.style.animation = 'fadeIn 0.5s ease reverse forwards';
+                setTimeout(() => popup.remove(), 500);
+            }
+        }, 3000);
+    }
+    
+    // Event listeners
+    if (kissBtn) {
+        kissBtn.addEventListener('click', () => receiveLove('kiss', '💋', '#ff1493'));
+        kissBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            receiveLove('kiss', '💋', '#ff1493');
+        });
+    }
+    
+    if (hugBtn) {
+        hugBtn.addEventListener('click', () => receiveLove('hug', '🤗', '#00b4d8'));
+        hugBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            receiveLove('hug', '🤗', '#00b4d8');
+        });
+    }
+    
+    if (loveBtnFooter) {
+        loveBtnFooter.addEventListener('click', () => receiveLove('love', '❤️', '#ff6b8b'));
+        loveBtnFooter.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            receiveLove('love', '❤️', '#ff6b8b');
+        });
+    }
+    
+    // Initialize days counter
+    updateDaysTogether();
+    setInterval(updateDaysTogether, 60000); // Update every minute
+}
+
+// ============= ROMANTIC ANIMATION =============
+function createRomanticAnimation() {
+    const container = document.getElementById('romantic-animation');
+    
+    // Create floating hearts
+    function createFloatingHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+        heart.style.animationDuration = (Math.random() * 8 + 12) + 's';
+        heart.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(heart);
+        
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, 20000);
+    }
+    
+    // Create floating love text
+    function createLoveText() {
+        const loveTexts = ['Forever Yours', 'I Love You', 'My Heart', 'Always', 'Together', 'Eternal Love', 'My Everything', 'Soulmates'];
+        const text = document.createElement('div');
+        text.className = 'love-text';
+        text.textContent = loveTexts[Math.floor(Math.random() * loveTexts.length)];
+        text.style.top = Math.random() * 100 + 'vh';
+        text.style.animationDuration = (Math.random() * 15 + 20) + 's';
+        text.style.animationDelay = Math.random() * 10 + 's';
+        container.appendChild(text);
+        
+        // Remove text after animation
+        setTimeout(() => {
+            text.remove();
+        }, 35000);
+    }
+    
+    // Create sparkles
+    function createSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = Math.random() * 100 + 'vw';
+        sparkle.style.top = Math.random() * 100 + 'vh';
+        sparkle.style.animationDelay = Math.random() * 3 + 's';
+        container.appendChild(sparkle);
+        
+        // Remove sparkle after animation
+        setTimeout(() => {
+            sparkle.remove();
+        }, 6000);
+    }
+    
+    // Create initial elements
+    for (let i = 0; i < 8; i++) {
+        setTimeout(() => createFloatingHeart(), i * 2000);
+    }
+    for (let i = 0; i < 3; i++) {
+        setTimeout(() => createLoveText(), i * 5000);
+    }
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => createSparkle(), i * 500);
+    }
+    
+    // Continue creating elements periodically
+    setInterval(createFloatingHeart, 3000);
+    setInterval(createLoveText, 8000);
+    setInterval(createSparkle, 2000);
 }
 
 // ============= INITIALIZE EVERYTHING =============
@@ -876,7 +980,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up all features
     updateThemeBasedOnTime();
     setupCursorTrail();
-    setupLoveGenerator();
     setupComfortButtons();
     setupDailySurprise();
     setupValentineGreeting();
@@ -885,12 +988,15 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSmoothScrolling();
     setupClickParticles();
     improveMobileExperience();
-    
+    setupRomanticGallery();
+    setupFooterFeatures();
+    createRomanticAnimation();
+
     // Check timeline visibility
     checkTimelineVisibility();
     window.addEventListener('scroll', checkTimelineVisibility);
     window.addEventListener('resize', checkTimelineVisibility);
-    
+
     // Parallax effect for hero section
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
